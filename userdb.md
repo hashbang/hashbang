@@ -48,6 +48,24 @@ The following services need to interact with the user DB:
 
 # #! user database -- PostgreSQL-based proposal
 
+## Design goals
+
+This design leans strongly towards consistency of the data, enforced
+as much as possible at the database level.
+
+Part of this appears in the user of foreign keys, range or value constraints,
+preventing applications from inserting (or modifying) data that violates those
+constraints.
+
+Less apparent manifestations appear in the design of the database schema:
+- User's primary groups are known to have the same id and name as the users,
+  and as such are not stored explicitely; such an inconsistency caused the
+  [“group 3000” bug](https://github.com/hashbang/provisor/pull/25).
+- Data duplication is systematically avoided, as it is a major cause of
+  inconsistencies in databases; the schema is even in
+  [project-join normal form](https://en.wikipedia.org/wiki/Fifth_normal_form).
+
+
 ## Replication
 
 In a single-master deployment, PostgreSQL has hot replication features that
