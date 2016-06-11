@@ -248,4 +248,23 @@ Finally, we need a query to link together users and auxiliary groups:
 
 ### `mail.hashbang.sh`
 
-Use directly Postfix's Postgres virtual table support.
+We can se directly Postfix's Postgres support to use a specific query as a virtual
+table; `pgsql:/etc/postfix/pgsql-aliases.cf` can be specified as `virtual_alias_map`.
+
+The `pgsql-aliases.cf` config file itself would look like this:
+
+	# The hosts that Postfix will try to connect to
+	hosts = localhost
+	
+	# The user name and password to log into the pgsql server.
+	user = someone
+	password = some_password
+	
+	# The database name on the servers.
+	dbname = userdb
+
+	# Query the user's host and return user@host
+	domain = hashbang.sh
+	query = SELECT host FROM passwd WHERE name='%U'
+	result_format = %U@%s
+
