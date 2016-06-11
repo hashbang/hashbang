@@ -88,15 +88,14 @@ CREATE DOMAIN username_t varchar(64) CHECK (
 CREATE TABLE "hosts" (
   "id" integer PRIMARY KEY MINVALUE 0 DEFAULT nextval('host_id'),
   "name" varchar(10) PRIMARY KEY,
-  "location" text,
-  PRIMARY KEY ("id")
+  "location" text
 )
 
 CREATE TABLE "passwd" (
   "id" integer PRIMARY KEY MINVALUE 1000 DEFAULT nextval('user_id'),
   "name" username_t PRIMARY KEY,
   "host" integer NOT NULL REFERENCES hosts (id),
-  "homedir" character varying(256) NOT NULL,
+  "homedir" varchar(256) NOT NULL,
   "data" jsonb
 );
 ```
