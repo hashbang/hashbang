@@ -189,6 +189,43 @@ On the shell servers, integrating the new auth DB involves three things:
 - having a script set as SSH `AuthorizedKeysCommand` that queries for a
   user's `passwd.data` and pipe it to `jq '.ssh_keys | .[]'`.
 
+#### `libnss-pgsql` configuration
+
+The main part of the configuration of `libnss-pgsql` is to set the queries
+used to retrieve information from the database.  Passwords are systematically
+set to be `!`: this is a value that cannot possibly match any password hash
+in `crypt(3)` format.
+
+Extracting user information is fairly straightforward:
+
+	# Returns (name, passwd, gecos, dir, shell, uid, gid) for a given name or uid, or all
+	getpwnam = SELECT name, '!', data->>'name', homedir, data->>'shell', uid, uid FROM passwd WHERE name = $1
+	getpwuid = SELECT name, '!', data->>'name', homedir, data->>'shell', uid, uid FROM passwd WHERE id   = $1
+	allusers = SELECT name, '!', data->>'name', homedir, data->>'shell', uid, uid FROM passwd
+
+
+Retrieving group-related data is a bit harder,as  groups are either a user's primary
+group, which shares the same name and id, or an auxiliary group described in the
+`group` table:
+
+	# Returns (name, passwd, gid) for a given name or gid, or all
+	getgrnam  = SELECT name, '!', gid FROM group  WHERE name = $1
+	      UNION SELECT name, '!', uid FROM passwd WHERE name = $1
+	getgrgid  = SELECT name, '!', gid FROM group  WHERE gid  = $1
+	      UNION SELECT name, '!', uid FROM passwd WHERE uid  = $1
+	allgroups = SELECT name, '!', gid FROM group
+	      UNION SELECT name, '!', uid FROM passwd
+
+Finally, we need a query to link together users and auxiliary groups:
+
+	# Returns all auxiliary group ids a user is a member of
+	groups_dyn = SELECT gid FROM passwd JOIN aux_groups USING (uid) WHERE name = $1
+	
+	# Returns all uids belonging to a given group
+	getgroupmembersbygid = SELECT name FROM passwd WHERE uid = $1
+	                 UNION SELECT name FROM passwd JOIN aux_groups USING (uid) WHERE gid = $1
+```
+
 
 ### `mail.hashbang.sh`
 
