@@ -99,8 +99,6 @@ CREATE TABLE "passwd" (
   "homedir" character varying(256) NOT NULL,
   "data" jsonb
 );
-
-CREATE INDEX ON TABLE "passwd" "name"
 ```
 
 Lastly, the `data` JSON object holds non-relational data.
