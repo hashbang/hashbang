@@ -97,7 +97,6 @@ CREATE TABLE "passwd" (
   "name" username_t PRIMARY KEY,
   "host" integer NOT NULL REFERENCES hosts (id),
   "homedir" character varying(256) NOT NULL,
-  "shell" character varying DEFAULT '/bin/bash' NOT NULL,
   "data" jsonb
 );
 
@@ -120,7 +119,10 @@ properties:
   name:
     type: string
     description: User's name
-  required: [ssh_keys]
+  shell:
+    type: string
+    description: User's shell
+  required: [ssh_keys, shell]
 ```
 
 *NOTE:* It might be possible to enforce the JSON Schema in the database itself.
