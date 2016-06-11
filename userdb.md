@@ -111,6 +111,10 @@ CREATE TABLE "aux_groups" (
 );
 ```
 
+*NOTE:* Rows in `group` and `passwd` shouldn't share a `name`.
+        Can this be expressed as a constraint?
+
+
 Lastly, the `data` JSON object holds non-relational data.
 It can be extended by users, but in any case must obey the following schema:
 
