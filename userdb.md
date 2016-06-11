@@ -98,6 +98,17 @@ CREATE TABLE "passwd" (
   "homedir" varchar(256) NOT NULL,
   "data" jsonb
 );
+
+CREATE TABLE "group" (
+  "id" integer PRIMARY KEY MAXVALUE 999,
+  "name" username_t PRIMARY KEY,
+);
+
+CREATE TABLE "extra_groups" (
+  "uid" int4 NOT NULL REFERENCES passwd (id),
+  "gid" int4 NOT NULL REFERENCES group  (id),
+  PRIMARY KEY ("uid", "gid"),
+);
 ```
 
 Lastly, the `data` JSON object holds non-relational data.
