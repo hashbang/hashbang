@@ -224,17 +224,19 @@ Extracting user information is fairly straightforward:
 	allusers = SELECT name, '!', data->>'name', homedir, data->>'shell', uid, uid FROM passwd
 
 
-Retrieving group-related data is a bit harder,as  groups are either a user's primary
-group, which shares the same name and id, or an auxiliary group described in the
-`group` table:
+Retrieving group-related data is a bit harder, as there as two kinds of groups:
+- a user's primary group shares the same name and id (and has a single user);
+- an auxiliary group is described in the `group` table.
 
-	# Returns (name, passwd, gid) for a given name or gid, or all
-	getgrnam  = SELECT name, '!', gid FROM group  WHERE name = $1
-	      UNION SELECT name, '!', uid FROM passwd WHERE name = $1
-	getgrgid  = SELECT name, '!', gid FROM group  WHERE gid  = $1
-	      UNION SELECT name, '!', uid FROM passwd WHERE uid  = $1
-	allgroups = SELECT name, '!', gid FROM group
-	      UNION SELECT name, '!', uid FROM passwd
+```
+# Returns (name, passwd, gid) for a given name or gid, or all
+getgrnam  = SELECT name, '!', gid FROM group  WHERE name = $1
+      UNION SELECT name, '!', uid FROM passwd WHERE name = $1
+getgrgid  = SELECT name, '!', gid FROM group  WHERE gid  = $1
+      UNION SELECT name, '!', uid FROM passwd WHERE uid  = $1
+allgroups = SELECT name, '!', gid FROM group
+      UNION SELECT name, '!', uid FROM passwd
+```
 
 Finally, we need a query to link together users and auxiliary groups:
 
