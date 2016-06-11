@@ -92,7 +92,7 @@ CREATE TABLE "hosts" (
 )
 
 CREATE TABLE "passwd" (
-  "id" integer PRIMARY KEY MINVALUE 1000 DEFAULT nextval('user_id'),
+  "uid" integer PRIMARY KEY MINVALUE 1000 DEFAULT nextval('user_id'),
   "name" username_t PRIMARY KEY,
   "host" integer NOT NULL REFERENCES hosts (id),
   "homedir" varchar(256) NOT NULL,
@@ -100,13 +100,13 @@ CREATE TABLE "passwd" (
 );
 
 CREATE TABLE "group" (
-  "id" integer PRIMARY KEY MAXVALUE 999,
+  "gid" integer PRIMARY KEY MAXVALUE 999,
   "name" username_t PRIMARY KEY,
 );
 
-CREATE TABLE "extra_groups" (
-  "uid" int4 NOT NULL REFERENCES passwd (id),
-  "gid" int4 NOT NULL REFERENCES group  (id),
+CREATE TABLE "aux_groups" (
+  "uid" int4 NOT NULL REFERENCES passwd (uid) ON DELETE CASCADE,
+  "gid" int4 NOT NULL REFERENCES group  (gid) ON DELETE CASCADE,
   PRIMARY KEY ("uid", "gid"),
 );
 ```
