@@ -244,7 +244,6 @@ Finally, we need a query to link together users and auxiliary groups:
 	# Returns all uids belonging to a given group
 	getgroupmembersbygid = SELECT name FROM passwd WHERE uid = $1
 	                 UNION SELECT name FROM passwd JOIN aux_groups USING (uid) WHERE gid = $1
-```
 
 
 ### `mail.hashbang.sh`
