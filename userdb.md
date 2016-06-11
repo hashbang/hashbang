@@ -173,6 +173,7 @@ A shell server hosts several components that get different access rights to the 
 - `pgsql`: the DB server itself need a DB user with the `replication` privilege.
   It gives complete read access to the database (from the master), and nothing else.
 - `ssh`: needs read access to the `passwd.{name,data}` columns.
+- `nss`: needs read access to `passwd`, `group` and `aux_groups`.
 - `hashbangctl`: needs write access to the `passwd.data` column.
 
 
@@ -206,6 +207,7 @@ On the shell servers, integrating the new auth DB involves three things:
   them “be there on the system”;
 - having a script set as SSH `AuthorizedKeysCommand` that queries for a
   user's `passwd.data` and pipe it to `jq '.ssh_keys | .[]'`.
+
 
 #### `libnss-pgsql` configuration
 
