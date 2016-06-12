@@ -85,7 +85,7 @@ Moreover, single-master PostgreSQL provides the usual ACID consistency guarantee
 
 ## Database schema
 
-The database holds two tables, `passwd` and `hosts`.
+The database schema is provided in [`schema.sql`](schema.sql).
 
 DB constraints are used to enforce, as much as possible, consistency:
 - uids must be valid and unique;
@@ -95,65 +95,13 @@ DB constraints are used to enforce, as much as possible, consistency:
 User records have an optional `data` column, that can hold
   additional, non-relational data as a (binary-encoded) JSON object.
 
-```postgres
-CREATE SEQUENCE user_id MINVALUE 4000 MAXVALUE 2147483647 NO CYCLE;
-CREATE SEQUENCE host_id MINVALUE    0 MAXVALUE 2147483647 NO CYCLE;
-
-CREATE DOMAIN username_t varchar(64) CHECK (
-  VALUE ~ '^[a-z][a-z0-9]+$'
-);
-
-CREATE TABLE "hosts" (
-  "id" integer PRIMARY KEY MINVALUE 0 DEFAULT nextval('host_id'),
-  "name" varchar(10) PRIMARY KEY,
-  "location" text
-)
-
-CREATE TABLE "passwd" (
-  "uid" integer PRIMARY KEY MINVALUE 1000 DEFAULT nextval('user_id'),
-  "name" username_t PRIMARY KEY,
-  "host" integer NOT NULL REFERENCES hosts (id),
-  "homedir" varchar(256) NOT NULL,
-  "data" jsonb
-);
-
-CREATE TABLE "group" (
-  "gid" integer PRIMARY KEY MAXVALUE 999,
-  "name" username_t PRIMARY KEY,
-);
-
-CREATE TABLE "aux_groups" (
-  "uid" int4 NOT NULL REFERENCES passwd (uid) ON DELETE CASCADE,
-  "gid" int4 NOT NULL REFERENCES group  (gid) ON DELETE CASCADE,
-  PRIMARY KEY ("uid", "gid"),
-);
-```
-
 *NOTE:* Rows in `group` and `passwd` shouldn't share a `name`.
         Can this be expressed as a constraint?
 
 
-Lastly, the `data` JSON object holds non-relational data.
-It can be extended by users, but in any case must obey the following schema:
-
-```yaml
-$schema: http://json-schema.org/schema#
-title: Manifest schema for the debconf plugin
-type: object
-properties:
-  ssh_keys:
-    type: array
-    items: {type: string}
-    uniqueItems: True
-    description: SSH keys for the shell servers
-  name:
-    type: string
-    description: User's name
-  shell:
-    type: string
-    description: User's shell
-  required: [ssh_keys, shell]
-```
+The `data` JSON object holds the non-relational data.
+It can be extended by users, but MUST obey a [JSON schema](data.json)
+that describes the fields used by #! infrastructure.
 
 *NOTE:* It might be possible to enforce the JSON Schema in the database itself.
         This isn't an immediate goal.

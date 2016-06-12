@@ -1,0 +1,16 @@
+$schema: http://json-schema.org/schema#
+title: Manifest schema for the debconf plugin
+type: object
+properties:
+  ssh_keys:
+    type: array
+    items: {type: string}
+    uniqueItems: True
+    description: SSH keys for the shell servers
+  name:
+    type: string
+    description: "User's name"
+  shell:
+    type: string
+    description: "User's shell"
+  required: [ssh_keys, shell]
