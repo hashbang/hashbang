@@ -87,7 +87,7 @@ XXXTODO: Figure out the time fudge-factor
 `t×r` is the expected number of signups over the last `t` days, over the world.
 
 The subnet `host/s` contains `2³²⁻ˢ` IPv4 addresses out of `2³²`,
-hence the expected ration of signups originating from it is `2⁻ˢ`.
+hence the expected ratio of signups originating from it is `2⁻ˢ`.
 
 The “fudge factor” `α` is a tune-able parameter that controls how strict
 the dependency regarding size is: it has less of an impact on large networks
