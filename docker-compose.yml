@@ -1,0 +1,18 @@
+version: '2'
+services:
+  shellbox:
+    restart: always
+    build: ./shellbox
+    cap_add: 
+      - SYS_ADMIN
+    ports:
+      - "22:22/tcp"
+    links:
+      - "db:db"
+    depends_on:
+      - db
+  db:
+    restart: always
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
