@@ -25,7 +25,7 @@ Here, the goal is to only enable sophonts to create accounts, not bots.
 
 The concrete implementation relies on two mechanisms:
 - a textual captcha is systematically sent to the user requesting the account
-  creation, and the account creation can only be fullfiled if a valid answer
+  creation, and the account creation can only be fulfilled if a valid answer
   is provided;
 - hierarchical rate-limiting is employed to limit the rate at which an adversary
   who can defeat the captcha (e.g. by employing humans) can create accounts.
@@ -67,9 +67,9 @@ There are several challenges inherent with this:
 	pool from their ISP).
 
 
-This approach is governed by several tuneable parameters:
+This approach is governed by several tune-able parameters:
 - `r [d⁻¹]`, an over-estimate of the legitimate signup rate, in users per day;
-- `0 < α < 1`, an adimentional fudge factor for the space scale:
+- `0 < α < 1`, an adimensional fudge factor for the space scale:
   closer to 0, it makes the rate-limit more forgiving of subnets with an
   above-expectation signup rate;
 - a set of timescales that are considered;
@@ -85,13 +85,13 @@ XXXTODO: Figure out the time fudge-factor
 #### Privacy concerns
 
 Implementing this requires keeping track of signup IPs and timestamps, which is
-a compromise on the ptivacy requirement (2).
+a compromise on the privacy requirement (2).
 
 This is mitigated by the fact that this data doesn't need to be made available to
 any other service than `api.hashbang.sh` (nor does it need to be part of the
 replicated database), and `api.hashbang.sh` does not need to know the corresponding
 username, nor does it need to have read access to historical data beyond the greatest
-timescaled considered.
+timescales considered.
 
 
 #### Security concerns
@@ -104,4 +104,4 @@ directly-connecting users (if any).
 In case of a compromise of the signup server, the attacker can bypass the
 rate-limiting (by lying to the API server on the client's IP).  The alternative
 (implementing rate-limitations in the signup server) does not solve that issue,
-and exposes the privacy-sensitive data mentionned earlier to the attacker.
+and exposes the privacy-sensitive data mentioned earlier to the attacker.
