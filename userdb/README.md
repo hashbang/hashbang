@@ -167,7 +167,7 @@ The website fulfills two complementary (and independent) roles:
 ```postgres
 CREATE VIEW hosts_stats AS
   SELECT hosts.id, hosts.name, agg.count FROM hosts
-  JOIN (SELECT host, count(distinct id) as count GROUP BY host) AS agg
+  JOIN (SELECT host, count(distinct id) as count FROM passwd GROUP BY host) AS agg
   ON agg.host = hosts.id
 ```
 
