@@ -1,5 +1,5 @@
 $schema: http://json-schema.org/schema#
-title: Manifest schema for the debconf plugin
+title: "#! userdb -- Schema for user records auxiliary data"
 type: object
 properties:
   ssh_keys:

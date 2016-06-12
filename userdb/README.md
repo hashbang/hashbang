@@ -133,7 +133,7 @@ User records have an optional `data` column, that can hold
 
 
 The `data` JSON object holds the non-relational data.
-It can be extended by users, but MUST obey a [JSON schema](data.json)
+It can be extended by users, but MUST obey a [JSON schema](user_data.yaml)
 that describes the fields used by #! infrastructure.
 
 *NOTE:* It might be possible to enforce the JSON Schema in the database itself.
