@@ -5,7 +5,7 @@ CREATE SEQUENCE host_id MINVALUE    0 MAXVALUE 2147483647 NO CYCLE;
 
 CREATE TABLE "hosts" (
   "id" integer PRIMARY KEY MINVALUE 0 DEFAULT nextval('host_id'),
-  "name" varchar(10) PRIMARY KEY,
+  "name" varchar(10) UNIQUE NOT NULL,
   "location" text
 )
 
@@ -20,7 +20,7 @@ CREATE DOMAIN username_t varchar(64) CHECK (
 
 CREATE TABLE "passwd" (
   "uid" integer PRIMARY KEY MINVALUE 1000 DEFAULT nextval('user_id'),
-  "name" username_t PRIMARY KEY,
+  "name" username_t UNIQUE NOT NULL,
   "host" integer NOT NULL REFERENCES hosts (id),
   "homedir" varchar(256) NOT NULL,
   "data" jsonb
@@ -29,7 +29,7 @@ CREATE TABLE "passwd" (
 -- auxiliary groups
 CREATE TABLE "group" (
   "gid" integer PRIMARY KEY MAXVALUE 999,
-  "name" username_t PRIMARY KEY,
+  "name" username_t UNIQUE NOT NULL,
 );
 
 CREATE TABLE "aux_groups" (
