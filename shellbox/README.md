@@ -73,7 +73,7 @@ To set this up on a live server, perform the following:
   You can test the setup.sh script with:
 
   ```
-  docker compose run -d shellbox
+  docker-compose run -d shellbox
   ```
 
   And you can get a root shell into this environment with:
