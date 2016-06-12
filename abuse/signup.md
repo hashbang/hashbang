@@ -1,4 +1,4 @@
-# #! user signup -- abuse handling
+# #! user signup — abuse handling
 
 Since possession of an #! account let users run things, host services, send mail
 and so on, signup is an attractive target for all sorts of abuses.
@@ -95,10 +95,10 @@ the dependency regarding size is: it has less of an impact on large networks
 over-average legitimate behavior).
 
 
-#### Privacy concerns
+## Privacy concerns
 
-Implementing this requires keeping track of signup IPs and timestamps, which is
-a compromise on the privacy requirement (2).
+Implementing rate-limiting requires keeping track of signup IPs and timestamps,
+which is a compromise on the privacy requirement (2).
 
 This is mitigated by the fact that this data doesn't need to be made available to
 any other service than `api.hashbang.sh` (nor does it need to be part of the
@@ -107,7 +107,7 @@ username, nor does it need to have read access to historical data beyond the gre
 timescales considered.
 
 
-#### Security concerns
+## Security concerns
 
 In the case of SSH-based signup, the SSH UI server needs to transmit the connecting
 client's IP, possibly in a HTTP header. Special care must be taken that only the SSH
@@ -118,3 +118,6 @@ In case of a compromise of the signup server, the attacker can bypass the
 rate-limiting (by lying to the API server on the client's IP).  The alternative
 (implementing rate-limitations in the signup server) does not solve that issue,
 and exposes the privacy-sensitive data mentioned earlier to the attacker.
+
+Even under those circumstances, the attacker cannot bypass the CAPTCHA,
+as it is checked API-side.
