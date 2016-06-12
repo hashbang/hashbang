@@ -13,4 +13,12 @@ properties:
     required: [lat, lon]
     additionalProperties: False
 
-  required: [location, coordinates]
+  inet:
+    description: "Server's IP address(es)"
+    minItems: 1
+    items:
+      type: string
+      oneOf: [ipv4, ipv6]
+    uniqueItems: True
+
+  required: [location, coordinates, inet]
