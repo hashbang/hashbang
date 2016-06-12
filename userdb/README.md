@@ -132,9 +132,25 @@ User records have an optional `data` column, that can hold
         Can this be expressed as a constraint?
 
 
-The `data` JSON object holds the non-relational data.
-It can be extended by users, but MUST obey a [JSON schema](user_data.yaml)
-that describes the fields used by #! infrastructure.
+## Data representation
+
+In the `passwd` and `hosts` tables, a `data` (binary) JSON object holds
+some non-relational data.  The rationale for this is two-fold:
+- the `data` object can be easily extended with additional information
+  without having to modify the schema (or even coordinate with the administrators);
+- the `data` object can easily be passed across JSON-based APIs.
+
+The `data` objects for [users](user_data.yaml) and [host](host_data.yml)
+must obey certain JSON schemata, for several reasons:
+- Some fields, like `shell` or `ssh_keys`, are used by #! infrastructure;
+  validating the JSON objects prevents users from accidentally losing access to
+  their own account in this way.
+- The host `data` object is directly added to data that is exposed on a public API.
+  This avoids breaking the public API accidentally simply by changing the data.
+- More generally, once a convention is widely adopted by #! users, it can be
+  formalised into a JSON schema and enforced, making the data format of user records
+  more interoperable.
+
 
 *NOTE:* It might be possible to enforce the JSON Schema in the database itself.
         This isn't an immediate goal.

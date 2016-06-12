@@ -1,0 +1,16 @@
+$schema: http://json-schema.org/schema#
+title: "#! userdb -- Schema for host records auxiliary data"
+type: object
+properties:
+  location:
+    type: string
+    description: "Server's location"
+
+  coordinates:
+    description: "Server's GPS coordinates"
+    lat: {type: number}
+    lon: {type: number}
+    required: [lat, lon]
+    additionalProperties: False
+
+  required: [location, coordinates]

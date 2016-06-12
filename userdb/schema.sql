@@ -6,7 +6,7 @@ CREATE SEQUENCE host_id MINVALUE    0 MAXVALUE 2147483647 NO CYCLE;
 CREATE TABLE "hosts" (
   "id" integer PRIMARY KEY MINVALUE 0 DEFAULT nextval('host_id'),
   "name" varchar(10) UNIQUE NOT NULL,
-  "location" text
+  "data" jsonb -- extra data added in the stats answer
 )
 
 
