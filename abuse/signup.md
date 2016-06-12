@@ -77,7 +77,7 @@ This approach is governed by several tuneable parameters:
 
 Given some IP `host` (assuming for now IPv4), the request is accepted if, for every
 timescale `t` and every space scale `s` from /8 to /24, the network `host/s`
-performed at most `t×r / (1 + s)^α` successful signups over the last `t` days.
+performed at most `t×r 2⁻ᵅ⁽³²⁻ˢ⁾` successful signups over the last `t` days.
 
 XXXTODO: Figure out the time fudge-factor
 
