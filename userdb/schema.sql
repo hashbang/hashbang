@@ -1,12 +1,11 @@
 -- -*- mode: sql; product: postgres -*-
 
 -- hosts table
-CREATE SEQUENCE host_id MINVALUE    0 MAXVALUE 2147483647 NO CYCLE;
-
 CREATE TABLE "hosts" (
-  "id" integer PRIMARY KEY MINVALUE 0 DEFAULT nextval('host_id'),
-  "name" varchar(10) UNIQUE NOT NULL,
+  "id" serial PRIMARY KEY,
+  "name" text UNIQUE NOT NULL,
   "data" jsonb -- extra data added in the stats answer
+               -- conforms to the host_data.yaml schema
 )
 
 
@@ -14,7 +13,7 @@ CREATE TABLE "hosts" (
 -- there is an implicit primary group for each user
 CREATE SEQUENCE user_id MINVALUE 4000 MAXVALUE 2147483647 NO CYCLE;
 
-CREATE DOMAIN username_t varchar(64) CHECK (
+CREATE DOMAIN username_t varchar(31) CHECK (
   VALUE ~ '^[a-z][a-z0-9]+$'
 );
 
@@ -22,8 +21,8 @@ CREATE TABLE "passwd" (
   "uid" integer PRIMARY KEY MINVALUE 1000 DEFAULT nextval('user_id'),
   "name" username_t UNIQUE NOT NULL,
   "host" integer NOT NULL REFERENCES hosts (id),
-  "homedir" varchar(256) NOT NULL,
-  "data" jsonb
+  "homedir" text NOT NULL,
+  "data" jsonb  -- conforms to the user_data.yaml schema
 );
 
 -- auxiliary groups
