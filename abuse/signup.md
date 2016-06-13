@@ -56,6 +56,7 @@ The intent behind rate-limiting is to prevent one single entity from creating
 a disproportionate number of accounts over a given time-span.
 
 There are several challenges inherent with this:
+
 - Special care must be taken not to hinder legitimate users.
   This precludes, for instance, blocking any IP range except for a short period
   of time: dynamic IPs being as they are, the range block would most of the time
@@ -69,6 +70,7 @@ There are several challenges inherent with this:
 
 
 This approach is governed by several tune-able parameters:
+
 - `r [d⁻¹]`, an over-estimate of the legitimate signup rate, in users per day;
 - `0 < α < 1`, an adimensional fudge factor for the space scale:
   closer to 0, it makes the rate-limit more forgiving of subnets with an
@@ -77,7 +79,7 @@ This approach is governed by several tune-able parameters:
 - a so-far unspecified fudge factor for the temporal scales.
 
 Given some IP `host` (assuming for now IPv4), the request is accepted if, for every
-timescale `t` and every space scale `s` from /8 to /24, the network `host/s`
+timescale `t` and every space scale `s` from /8 to /32, the network `host/s`
 performed at most `t×r 2⁻ᵅˢ` successful signups over the last `t` days.
 
 XXXTODO: Figure out the time fudge-factor
@@ -91,9 +93,9 @@ The subnet `host/s` contains `2³²⁻ˢ` IPv4 addresses out of `2³²`,
 hence the expected ratio of signups originating from it is `2⁻ˢ`.
 
 The “fudge factor” `α` is a tune-able parameter that controls how strict
-the dependency regarding size is: it has less of an impact on large networks
-(`s` goes to 0), and more on small networks (which are more likely to have
-over-average legitimate behavior).
+the dependency regarding network size is: it has less of an impact on large
+networks (`s` goes to 0), and more on small networks (which are more likely
+to have over-average legitimate behavior).
 
 
 ## Privacy concerns
@@ -110,6 +112,10 @@ timescales considered.
 
 ## Security concerns
 
+### Rate-limiting
+
+#### Risk of bypassing the rate-limit
+
 In the case of SSH-based signup, the SSH UI server needs to transmit the connecting
 client's IP, possibly in a HTTP header. Special care must be taken that only the SSH
 UI server is allowed to set the client IP to an arbitrary address, not the
@@ -120,5 +126,20 @@ rate-limiting (by lying to the API server on the client's IP).  The alternative
 (implementing rate-limitations in the signup server) does not solve that issue,
 and exposes the privacy-sensitive data mentioned earlier to the attacker.
 
-Even under those circumstances, the attacker cannot bypass the CAPTCHA,
-as it is checked API-side.
+The compromise of the signup server is mitigated against by the CAPTCHA mechanism,
+as an attacker still needs to solve CAPTCHAs to perform registration.
+
+
+#### Potential DoS
+
+An attacker may attempt to (ab)use the rate-limiting system to prevent users in
+“neighboring” networks from using the service.
+
+In order to block a number of size `s`, over a duration `t`, the attacker must:
+- solve `t×r 2⁻ᵅˢ` CAPTCHAs;
+- send requests from computers in `(t×r 2⁻ᵅˢ)/(t×r 2⁻²⁴ᵅ) = 2⁽²⁴⁻ˢ⁾ᵅ` different
+  /24 networks.
+
+For concrete values `t = 7 d`, `s = /16`, `r = 1000 d⁻¹` and `α = 90%`, this
+means solving 2300 CAPTCHAs and having access to 2300 different computers
+in 147 different /24 networks.
