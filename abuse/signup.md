@@ -79,7 +79,7 @@ This approach is governed by several tune-able parameters:
 - a so-far unspecified fudge factor for the temporal scales.
 
 Given some IP `host` (assuming for now IPv4), the request is accepted if, for every
-timescale `t` and every space scale `s` from /8 to /32, the network `host/s`
+timescale `t` and every space scale `s` from /8 to /24, the network `host/s`
 performed at most `t×r 2⁻ᵅˢ` successful signups over the last `t` days.
 
 XXXTODO: Figure out the time fudge-factor
@@ -141,5 +141,4 @@ In order to block a number of size `s`, over a duration `t`, the attacker must:
   /24 networks.
 
 For concrete values `t = 7 d`, `s = /16`, `r = 1000 d⁻¹` and `α = 90%`, this
-means solving 2300 CAPTCHAs and having access to 2300 different computers
-in 147 different /24 networks.
+means solving 2300 CAPTCHAs and having access to 147 different /24 networks.
