@@ -18,12 +18,13 @@ Here, the goal is to only enable sophonts to create accounts, not bots.
    the SSH UI is not specially trusted.
 
 4. No data must be recorded before a signup is successful:  doing otherwise
-   opens up a DoS vector (and is inefficient).
+   opens up a DoS vector (and is inefficient) and a potential privacy issue.
 
 
 ## Implementation
 
 The concrete implementation relies on two mechanisms:
+
 - a textual captcha is systematically sent to the user requesting the account
   creation, and the account creation can only be fulfilled if a valid answer
   is provided;
