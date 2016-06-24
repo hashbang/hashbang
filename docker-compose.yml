@@ -2,7 +2,7 @@ version: '2'
 services:
   shellbox:
     restart: always
-    build: ./shellbox
+    build: ./services/shell-server
     cap_add: 
       - SYS_ADMIN
     expose:
@@ -13,7 +13,7 @@ services:
       - db
   signup:
     restart: always
-    build: ./signup
+    build: ./services/signup-ssh
     environment:
       - PORT=22
     cap_add: 

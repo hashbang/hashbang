@@ -1,6 +1,9 @@
-[submodule "signup"]
-	path = signup
-	url = git@github.com:hashbang/new.hashbang.sh.git
 [submodule "admin-tools"]
 	path = admin-tools
 	url = git@github.com:hashbang/admin-tools.git
+[submodule "services/signup-ssh"]
+	path = services/signup-ssh
+	url = git@github.com:hashbang/signup-ssh.git
+[submodule "services/shell-server"]
+	path = services/shell-server
+	url = git@github.com:hashbang/shell-server.git
