@@ -4,6 +4,7 @@ RUN apt-get update && \
     apt-get install -y --force-yes \
         wget \
         ssh \
+        telnet \
         apt-transport-https \
         ca-certificates \
         git &&\

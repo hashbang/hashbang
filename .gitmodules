@@ -1,0 +1,3 @@
+[submodule "signup"]
+	path = signup
+	url = git@github.com:hashbang/new.hashbang.sh.git

@@ -35,3 +35,7 @@ ssh_exec(){
 		-o StrictHostKeyChecking=no \
 		$*
 }
+
+ssh_test(){
+	echo quit | telnet $1 22 | grep Connected
+}
