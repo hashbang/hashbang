@@ -10,5 +10,5 @@ teardown(){
 
 @test "Can execute ssh command in shellbox container" {
     run ssh_exec root@shellbox ls
-	[ "$status" -eq 0 ]
+    [ "$status" -eq 0 ]
 }

@@ -19,7 +19,7 @@ setup_root_ssh(){
 	import_ssh_key
 }
 
-shellbox_exec(){
+docker_exec(){
 	docker \
 		exec \
 		-i hashbang_shellbox_1 \
