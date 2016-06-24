@@ -4,6 +4,7 @@ services:
     build: ./test
     volumes:
       - ./test:/test
+      - ./admin-tools:/test/admin-tools
       - /var/run/docker.sock:/var/run/docker.sock
     links:
       - "shellbox:shellbox"
