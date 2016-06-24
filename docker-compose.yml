@@ -16,17 +16,3 @@ services:
     image: postgres:9.5
     ports:
       - "5432:5432"
-  test:
-    build: ./test
-    volumes:
-      - ./test:/test
-      - /var/run/docker.sock:/var/run/docker.sock
-    links:
-      - "shellbox:shellbox"
-      - "db:db"
-    depends_on:
-      - db
-      - shellbox
-    tty: true
-    cap_add: 
-      - SYS_ADMIN
