@@ -3,6 +3,7 @@ FROM debian:jessie
 RUN apt-get update && \
     apt-get install -y --force-yes \
         wget \
+        ansible \
         ssh \
         telnet \
         apt-transport-https \
