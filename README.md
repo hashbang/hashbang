@@ -45,18 +45,12 @@ Currently we provide the following services:
 ## Development ##
 
 First step to build/develop/experiment would be to spin up a local copy of our
-infra. 
+infra and fire up a shell in it.
 
 You can do that with:
 
 ```
-docker-compose up
-```
-
-And to get a root shell on the local hashbang network do:
-
-```
-docker exec -it hashbang_shellbox_1 bash
+make develop
 ```
 
 From here you should be set to experiment with and contribute changes to any
