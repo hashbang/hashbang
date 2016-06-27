@@ -2,7 +2,6 @@ load test_helper
 
 setup(){
     setup_root_ssh
-    export PGPASSWORD="testpass"
 }
 
 teardown(){

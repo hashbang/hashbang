@@ -18,6 +18,8 @@ services:
     tty: true
     cap_add: 
       - SYS_ADMIN
+    environment:
+      PGPASSWORD: 'testpass'
   db:
     environment:
       POSTGRES_PASSWORD: 'testpass'
