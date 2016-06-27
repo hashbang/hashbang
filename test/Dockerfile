@@ -8,6 +8,7 @@ RUN apt-get update && \
         telnet \
         apt-transport-https \
         ca-certificates \
+        postgresql \
         git &&\
     apt-key adv \
         --keyserver hkp://pgp.mit.edu:80 \
