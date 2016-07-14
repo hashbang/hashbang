@@ -149,13 +149,13 @@ This approach is governed by several tune-able parameters:
   closer to 0, it makes the rate-limit more forgiving of subnets with an
   above-expectation signup rate;
 - a set of timescales that are considered;
-- a so-far unspecified fudge factor for the temporal scales.
+- a pair of fudge factors for the temporal scales: `0< β` and `1 < c ≤ 1 + β⁻¹`;
+  for simplicity, we set now `c = 1 + β⁻¹`.
 
 Given some IP `host` (assuming for now IPv4), the request is accepted if, for every
-timescale `t` and every space scale `s` from /8 to /32, the network `host/s`
-performed at most `t×r 2⁻ᵅˢ` successful signups over the last `t` days.
-
-XXXTODO: Figure out the time fudge-factor
+timescale `t` and every space scale `s` from /8 to /24, the network `host/s`
+performed at most `f(t)×r 2⁻ᵅˢ` successful signups over the last `t` days
+with `f(t) = (1 + β×t⁻ᶜ) t`.
 
 
 #### Rationale
@@ -169,6 +169,22 @@ The “fudge factor” `α` is a tune-able parameter that controls how strict
 the dependency regarding network size is: it has less of an impact on large
 networks (`s` goes to 0), and more on small networks (which are more likely
 to have over-average legitimate behavior).
+
+Lastly, the dependency on time (`t`) is replaced by `f(t)` with the following
+properties:
+
+1. `f(t)` is increasing: bigger sliding windows have bigger limits;
+2. `f(t)/t` goes towards 1: the rate limit goes towards `r` when the timespan grows large;
+3. `f(1) = β+1`: the parameter `β` controls the values of `f` for small timespans.
+
+`f` was rewritten as `f(t) = (1 + g(t)) t`, transforming the constraints into:
+
+1. `f'(t) = 1 + g + g'×t > 0`
+2. `g(t)` goes towards 0
+3. `g(1) = β`
+
+By picking `g(t) = β×t⁻ᶜ` (which fulfills constraints 2 and 3), the first constraint
+becomes `c ≤ 1 + β⁻¹`.
 
 
 ## Privacy concerns
@@ -247,5 +263,4 @@ In order to block a number of size `s`, over a duration `t`, the attacker must:
   /24 networks.
 
 For concrete values `t = 7 d`, `s = /16`, `r = 1000 d⁻¹` and `α = 90%`, this
-means solving 2300 CAPTCHAs and having access to 2300 different computers
-in 147 different /24 networks.
+means solving 2300 CAPTCHAs and having access to 147 different /24 networks.
