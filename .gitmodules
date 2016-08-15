@@ -10,3 +10,12 @@
 [submodule "projects/userdb"]
 	path = projects/userdb
 	url = git@github.com:hashbang/userdb.git
+[submodule "projects/docker-gitolite"]
+	path = projects/docker-gitolite
+	url = git@github.com:hashbang/docker-gitolite.git
+[submodule "projects/docker-postfix"]
+	path = projects/docker-postfix
+	url = git@github.com:hashbang/docker-postfix.git
+[submodule "projects/docker-anope"]
+	path = projects/docker-anope
+	url = git@github.com:hashbang/docker-anope.git
