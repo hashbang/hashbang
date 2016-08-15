@@ -40,7 +40,7 @@ Currently we provide the following services:
 ## Documentation ##
 
   - [Abuse Prevention](https://github.com/hashbang/hashbang/tree/master/abuse)
-  - [Next-Gen UserDB](https://github.com/hashbang/hashbang/tree/master/userdb)
+  - [Next-Gen UserDB](https://github.com/hashbang/userdb)
 
 ## Development ##
 
