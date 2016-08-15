@@ -1,9 +1,12 @@
 [submodule "admin-tools"]
-	path = admin-tools
+	path = projects/admin-tools
 	url = git@github.com:hashbang/admin-tools.git
 [submodule "services/signup-ssh"]
-	path = services/signup-ssh
+	path = projects/signup-ssh
 	url = git@github.com:hashbang/signup-ssh.git
 [submodule "services/shell-server"]
-	path = services/shell-server
+	path = projects/shell-server
 	url = git@github.com:hashbang/shell-server.git
+[submodule "services/userdb"]
+	path = projects/userdb
+	url = git@github.com:hashbang/userdb.git
