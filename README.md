@@ -2,6 +2,7 @@
 
 <http://github.com/hashbang/hashbang>
 
+
 ## About ##
 
 This repository contains the design documents and documentation for
@@ -9,6 +10,7 @@ This repository contains the design documents and documentation for
 
 Likewise, its associated [issue tracker](https://github.com/hashbang/hashbang/issues)
 is used for keeping track of infra-wide issues, bugs, improvements, ...
+
 
 ## Services ##
 
@@ -37,36 +39,12 @@ Currently we provide the following services:
     - [Source Code](https://github.com/hashbang/docker-slapd)
     - [Docker Image](https://hub.docker.com/r/hashbang/slapd/)
 
+
 ## Documentation ##
 
   - [Abuse Prevention](https://github.com/hashbang/hashbang/tree/master/abuse)
   - [Next-Gen UserDB](https://github.com/hashbang/hashbang/tree/master/userdb)
 
-## Development ##
-
-First step to build/develop/experiment would be to spin up a local copy of our
-infra and fire up a shell in it.
-
-You can do that with:
-
-```
-make develop
-```
-
-From here you should be set to experiment with and contribute changes to any
-part of the #! infrastructure.
-
-See each individual project repo for specific development details.
-
-## Testing ##
-
-Though incomplete, you can run our full end-to-end test suite locally with:
-
-```
-make test
-```
-
-Please ensure all tests pass before submitting Pull Requests for any repo.
 
 ## Notes ##
 
