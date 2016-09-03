@@ -130,6 +130,34 @@ rollover procedures and secure key storage.
 [TextCaptcha]: http://textcaptcha.com/
 
 
+#### Key management considerations
+
+Since no persistent key is used, most of the usual key management and
+distribution woes are side-stepped.  However, we must be careful that
+the transient encryption key is not kept too long.
+
+The theoretical limit on how many tokens can be safely encrypted with a 128-bit
+cipher is 2⁶⁴ bits, and Go standard nonce size is 96 bits, leading to 2⁴⁸
+messages with random nonces before a nonce reuse can be not unlikely.
+
+Both are comfortably over what can be expected to be served by the API server
+over its lifetime (i.e. without restart).  However, less-than-perfect random
+number generation can significantly increase the risk of accidental nonce reuse.
+
+To mitigate this, the implementation should replace the encryption key with a
+new random one, whenever a new `/captcha` request occurs and either of these
+conditions are met:
+
+- the number of CAPTCHA issued since last key rollover is greater than 2²⁰;
+- the last issued CAPTCHA is older than the configured validity duration
+  **and** the encryption key is older than an hour.
+
+
+*NOTE*: The first condition may cause CAPTCHAs to be revoked (becoming
+        undecipherable), but can only be triggered if 2²⁰ requests are
+        sent with no gap longer than the CAPTCHA validity period.
+
+
 ### Hierarchical rate-limiting
 
 The intent behind rate-limiting is to prevent one single entity from creating
