@@ -25,10 +25,10 @@ Here, the goal is to only enable sophonts to create accounts, not bots.
 
 The concrete implementation relies on two mechanisms:
 
-- a textual captcha is systematically sent to the user requesting the account
-  creation, and the account creation can only be fulfilled if a valid answer
-  is provided;
-- hierarchical rate-limiting is employed to limit the rate at which an adversary
+- a textual captcha that is systematically sent to the user requesting the
+  account creation, and the account creation can only be fulfilled if a valid
+  answer is provided;
+- hierarchical rate-limiting to limit the rate at which an adversary
   who can defeat the captcha (e.g. by employing humans) can create accounts.
 
 
@@ -102,14 +102,14 @@ for the valid answers, enabling a malicious user to bruteforce them offline.
 
 As such, the `token` opaque value is generated as follows:
 
-- the required data (`a`, `timestamp` and `username`) is serialized
+- The required data (`a`, `timestamp` and `username`) is serialized
   using an implementation-defined mechanism.
   [Snappy](https://github.com/golang/snappy)-compressed JSON is suitable.
-- the serialized data is encrypted, using an authenticated encryption
+- The serialized data is encrypted, using an authenticated encryption
   primitive such as AES-GCM, against a constant, symmetric key that is
   randomly generated when the API server starts (and never persisted to
-  disk);
-- the encrypted data is Base64-encoded, using the
+  disk).
+- The encrypted data is Base64-encoded, using the
   [RFC 4648 URL-safe alphabet](https://tools.ietf.org/html/rfc4648#section-5).
 
 The use of a random, volatile key for token encryption implies two trade-offs:
