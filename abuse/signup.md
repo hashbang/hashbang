@@ -48,15 +48,14 @@ channels are in English.
 The addition of a CAPTCHA obviously requires an API change.
 The design criteria for it are as follows:
 
-1. change as little as possible the current signup API;
-2. be stateless, in conformance with requirement 4;
-3. be secure, in the following ways:
-   - allow a limited (configurable) time to solve the CAPTCHA;
-   - prevent users from reusing CAPTCHA answers;
-   - do not expose any information to the user that may facilitate
-	 automated CAPTCHA solving;
-4. be independent from [TextCaptcha]: the CAPTCHA-generating system
-   must be replaceable without any change to the API.
+- change as little as possible the current signup API;
+- be secure, in the following ways:
+  - allow a limited (configurable) time to solve the CAPTCHA;
+  - prevent users from reusing CAPTCHA answers;
+  - do not expose any information to the user that may facilitate
+	automated CAPTCHA solving;
+- be independent from [TextCaptcha]: the CAPTCHA-generating system
+  must be replaceable without any change to the API.
 
 
 #### Public API
@@ -80,6 +79,11 @@ checks (and error-out accordingly) before validating the CAPTCHA.
 Doing otherwise would expose an interactive verifier for the CAPTCHA
 solution (which might or might not be an exploitable flaw).
 
+If the answer did not match, the CAPTCHA is added to a set of invalid
+CAPTCHAs until its expiration time, to prevent an attacker from trying
+to brute-force a CAPTCHA.  The set does not need to be persisted to disk
+or to a database, keeping it in an in-memory datastructure is enough.
+
 
 #### Opaque token
 
@@ -90,8 +94,7 @@ The CAPTCHA validation requires three pieces of information:
 - the `username` requested during CAPTCHA generation.
 
 This data needs to be integrity-protected, since an attacker able to modify
-any of its parts would be able to violate the security requirements (3) or
-bypass the CAPTCHA entirely.
+any of its parts would be able to violate the security requirements.
 
 Moreover, it needs to be kept confidential: the `a` attribute is a hash of
 the valid, lowercased answers: exposing it to the user reveals a *verifier*
@@ -223,10 +226,12 @@ Since usernames are unique, a given answer can only be used for a single
 account creation.
 
 Lastly, the adversary must compute the answer with only access to `challenge`
-and an online verifier (the API server): it may not violate the confidentiality
-properties of `token` (which is encrypted).  It follows that the adversary must
-be able to compute the solution to the CAPTCHA within a reasonable number of
-attempts.
+and an online verifier (the API server).  The verifier refuses to answer to a
+given CAPTCHA after one wrong answer, and the adversary may not violate the
+confidentiality properties of `token` (which is encrypted).
+
+It follows that the adversary must be able to compute the solution to the
+CAPTCHA on the first attempt.
 
 
 *NOTE:* Assumption 2 might be violated, given that [TextCaptcha]'s API doesn't
