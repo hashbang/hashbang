@@ -109,10 +109,11 @@ As such, the `token` opaque value is generated as follows:
   using an implementation-defined mechanism.
   [Snappy](https://github.com/golang/snappy)-compressed JSON is suitable.
 - The serialized data is encrypted, using an authenticated encryption
-  primitive such as AES-GCM, against a constant, symmetric key that is
-  randomly generated when the API server starts (and never persisted to
-  disk).
-- The encrypted data is Base64-encoded, using the
+  primitive such as AES128-GCM, with a constant, symmetric key that
+  is randomly generated when the API server starts (and never persisted
+  to disk) and a large, random nonce.
+- The random nonce is appended to the ciphertext.
+- The resulting data is Base64-encoded, using the
   [RFC 4648 URL-safe alphabet](https://tools.ietf.org/html/rfc4648#section-5).
 
 The use of a random, volatile key for token encryption implies two trade-offs:
