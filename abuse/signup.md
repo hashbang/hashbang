@@ -70,7 +70,7 @@ A `/captcha` endpoint is added, expecting a JSON object with a single
 When using the `/user/create` endpoint for user creation, the client
 must provide (in addition to the current requirements):
 
-- the opaque `token` it received from a previous call to `answer`,
+- the opaque `token` received from a previous call to `captcha`,
   for the `username` it is requesting;
 - a matching `answer` string.
 
