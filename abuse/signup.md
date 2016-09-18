@@ -144,9 +144,12 @@ Both are comfortably over what can be expected to be served by the API server
 over its lifetime (i.e. without restart).  However, less-than-perfect random
 number generation can significantly increase the risk of accidental nonce reuse.
 
-To mitigate this, the implementation should replace the encryption key with a
-new random one, whenever a new `/captcha` request occurs and either of these
-conditions are met:
+More importantly, a variety of other factors can lead to key compromise:
+vulnerabilities in our own code, flawed crypto implementation, ...
+
+To mitigate this, the implementation should enforce that the encryption key is
+volatile, by replacing it with a new random one, whenever a new `/captcha`
+request occurs and either of these conditions are met:
 
 - the number of CAPTCHA issued since last key rollover is greater than 2²⁰;
 - the last issued CAPTCHA is older than the configured validity duration
