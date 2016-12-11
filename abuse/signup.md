@@ -84,6 +84,9 @@ CAPTCHAs until its expiration time, to prevent an attacker from trying
 to brute-force a CAPTCHA.  The set does not need to be persisted to disk
 or to a database, keeping it in an in-memory datastructure is enough.
 
+The corresponding API is described as a
+[JSON HyperSchema](https://github.com/hashbang/userdb-schemas/blob/refactor/api_schema.yml#L37-L58)
+
 
 #### Opaque token
 
