@@ -70,7 +70,7 @@ A `/captcha` endpoint is added, expecting a JSON object with a single
 When using the `/user/create` endpoint for user creation, the client
 must provide (in addition to the current requirements):
 
-- the opaque `token` it received from a previous call to `answer`,
+- the opaque `token` received from a previous call to `captcha`,
   for the `username` it is requesting;
 - a matching `answer` string.
 
@@ -109,10 +109,11 @@ As such, the `token` opaque value is generated as follows:
   using an implementation-defined mechanism.
   [Snappy](https://github.com/golang/snappy)-compressed JSON is suitable.
 - The serialized data is encrypted, using an authenticated encryption
-  primitive such as AES-GCM, against a constant, symmetric key that is
-  randomly generated when the API server starts (and never persisted to
-  disk).
-- The encrypted data is Base64-encoded, using the
+  primitive such as AES128-GCM, with a constant, symmetric key that
+  is randomly generated when the API server starts (and never persisted
+  to disk) and a large, random nonce.
+- The random nonce is appended to the ciphertext.
+- The resulting data is Base64-encoded, using the
   [RFC 4648 URL-safe alphabet](https://tools.ietf.org/html/rfc4648#section-5).
 
 The use of a random, volatile key for token encryption implies two trade-offs:
@@ -127,6 +128,37 @@ rollover procedures and secure key storage.
 
 
 [TextCaptcha]: http://textcaptcha.com/
+
+
+#### Key management considerations
+
+Since no persistent key is used, most of the usual key management and
+distribution woes are side-stepped.  However, we must be careful that
+the transient encryption key is not kept too long.
+
+The theoretical limit on how many tokens can be safely encrypted with a 128-bit
+cipher is 2⁶⁴ bits, and Go standard nonce size is 96 bits, leading to 2⁴⁸
+messages with random nonces before a nonce reuse can be not unlikely.
+
+Both are comfortably over what can be expected to be served by the API server
+over its lifetime (i.e. without restart).  However, less-than-perfect random
+number generation can significantly increase the risk of accidental nonce reuse.
+
+More importantly, a variety of other factors can lead to key compromise:
+vulnerabilities in our own code, flawed crypto implementation, ...
+
+To mitigate this, the implementation should enforce that the encryption key is
+volatile, by replacing it with a new random one, whenever a new `/captcha`
+request occurs and either of these conditions are met:
+
+- the number of CAPTCHA issued since last key rollover is greater than 2²⁰;
+- the last issued CAPTCHA is older than the configured validity duration
+  **and** the encryption key is older than an hour.
+
+
+*NOTE*: The first condition may cause CAPTCHAs to be revoked (becoming
+        undecipherable), but can only be triggered if 2²⁰ requests are
+        sent with no gap longer than the CAPTCHA validity period.
 
 
 ### Hierarchical rate-limiting
