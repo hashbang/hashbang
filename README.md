@@ -27,7 +27,7 @@ Currently we provide the following services:
     are deployed on VMs hosted by [Atlantic.net](https://atlantic.net)
 
   * IRC - `ircs://irc.hashbang.sh:6697`
-    - Server
+    - Servers
       - [Source Code](https://github.com/hashbang/hashbang)
       - [Docker Image](https://hub.docker.com/r/hashbang/unrealircd/)
     - Services
