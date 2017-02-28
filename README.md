@@ -16,9 +16,16 @@ is used for keeping track of infra-wide issues, bugs, improvements, ...
 
 Currently we provide the following services:
 
-  * SSH - `ssh://hashbang.sh:22`
-    - [Source Code](https://github.com/hashbang/shell-server)
+  * SSH - `ssh://{da1,ny1,sf1,to1}.hashbang.sh:22`
+    - [etckeeper configuration](https://github.com/hashbang/shell-etc)
+    - [Docker Source](https://github.com/hashbang/shell-server)  
     - [Docker Image](https://hub.docker.com/r/hashbang/shell-server/)
+	
+	
+    Note: the `shell-server` Docker container is there for test
+    mockups and preparing `shell-etc` pull requests.  Actual instances
+    are deployed on VMs hosted by [Atlantic.net](https://atlantic.net)
+
   * IRC - `ircs://irc.hashbang.sh:6697`
     - Server
       - [Source Code](https://github.com/hashbang/hashbang)
