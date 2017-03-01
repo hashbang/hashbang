@@ -2,17 +2,48 @@ version: '2'
 services:
   shellbox:
     restart: always
-    build: ./shellbox
+    build: ./projects/shell-server
     cap_add: 
       - SYS_ADMIN
-    ports:
-      - "22:22/tcp"
+    expose:
+      - "22/tcp"
     links:
       - "db:db"
     depends_on:
       - db
+  signup:
+    restart: always
+    build: ./projects/signup-ssh
+    environment:
+      - PORT=22
+    cap_add: 
+      - NET_BIND_SERVICE
+    expose:
+      - "22/tcp"
+  ircd:
+    restart: always
+    build: ./projects/docker-unrealircd
+    expose:
+      - "6697/tcp"
+      - "7000/tcp"
+  irc-services:
+    restart: always
+    build: ./projects/docker-anope
+    expose:
+      - "6697/tcp"
+      - "7000/tcp"
+  smtpd:
+    restart: always
+    build: ./projects/docker-postfix
+    expose:
+      - "25/tcp"
+  git-infra:
+    restart: always
+    build: ./projects/docker-gitolite
+    expose:
+      - "22/tcp"
   db:
     restart: always
     image: postgres:9.5
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432/tcp"

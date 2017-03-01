@@ -1,0 +1,25 @@
+version: '2'
+services:
+  test:
+    build: ./test
+    volumes:
+      - ./test:/test
+      - ./admin-tools:/test/admin-tools
+      - ./userdb:/test/userdb
+      - /var/run/docker.sock:/var/run/docker.sock
+    links:
+      - "shellbox:shellbox"
+      - "signup:signup"
+      - "db:db"
+    depends_on:
+      - db
+      - shellbox
+      - signup
+    tty: true
+    cap_add: 
+      - SYS_ADMIN
+    environment:
+      PGPASSWORD: 'testpass'
+  db:
+    environment:
+      POSTGRES_PASSWORD: 'testpass'

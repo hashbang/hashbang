@@ -1,0 +1,21 @@
+[submodule "admin-tools"]
+	path = projects/admin-tools
+	url = git@github.com:hashbang/admin-tools.git
+[submodule "projects/signup-ssh"]
+	path = projects/signup-ssh
+	url = git@github.com:hashbang/signup-ssh.git
+[submodule "projects/shell-server"]
+	path = projects/shell-server
+	url = git@github.com:hashbang/shell-server.git
+[submodule "projects/userdb"]
+	path = projects/userdb
+	url = git@github.com:hashbang/userdb.git
+[submodule "projects/docker-gitolite"]
+	path = projects/docker-gitolite
+	url = git@github.com:hashbang/docker-gitolite.git
+[submodule "projects/docker-postfix"]
+	path = projects/docker-postfix
+	url = git@github.com:hashbang/docker-postfix.git
+[submodule "projects/docker-anope"]
+	path = projects/docker-anope
+	url = git@github.com:hashbang/docker-anope.git
