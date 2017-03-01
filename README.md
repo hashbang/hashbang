@@ -16,26 +16,37 @@ is used for keeping track of infra-wide issues, bugs, improvements, ...
 
 Currently we provide the following services:
 
-  * SSH - ssh://hashbang.sh:22
-    - [Source Code](https://github.com/hashbang/shell-server)
+  * SSH - `ssh://{da1,ny1,sf1,to1}.hashbang.sh:22`
+    - [etckeeper configuration](https://github.com/hashbang/shell-etc)
+    - [Docker Source](https://github.com/hashbang/shell-server)  
     - [Docker Image](https://hub.docker.com/r/hashbang/shell-server/)
-  * IRC - ircs://irc.hashbang.sh:6697 
-    - Server
+	
+	
+    Note: the `shell-server` Docker container is there for test
+    mockups and preparing `shell-etc` pull requests.  Actual instances
+    are deployed on VMs hosted by [Atlantic.net](https://atlantic.net)
+
+  * IRC - `ircs://irc.hashbang.sh:6697`
+    - Servers
       - [Source Code](https://github.com/hashbang/hashbang)
       - [Docker Image](https://hub.docker.com/r/hashbang/unrealircd/)
     - Services
       - [Source Code](https://github.com/hashbang/docker-anope)
       - [Docker Image](https://hub.docker.com/r/hashbang/anope/)
-  * Bitlbee - ircs://im.hashbang.sh:6697 
+
+  * Bitlbee - `ircs://im.hashbang.sh:6697`
     - [Source Code](https://github.com/hashbang/hashbang)
     - [Docker Image](https://hub.docker.com/r/hashbang/unrealircd/)
-  * SMTP - smtp://mail.hashbang.sh:25
+
+  * SMTP - `smtp://mail.hashbang.sh`
     - [Source Code](https://github.com/hashbang/docker-postfix)
     - [Docker Image](https://hub.docker.com/r/hashbang/postfix/)
-  * VOIP - mumble://voip.hashbang.sh:64738
+
+  * VOIP - `mumble://voip.hashbang.sh:64738`
     - [Source Code](https://github.com/hashbang/docker-mumble)
     - [Docker Image](https://hub.docker.com/r/hashbang/mumble/)
-  * LDAP - ldap://ldap.hashbang.sh:636
+
+  * LDAP - `ldaps://ldap.hashbang.sh`
     - [Source Code](https://github.com/hashbang/docker-slapd)
     - [Docker Image](https://hub.docker.com/r/hashbang/slapd/)
 
