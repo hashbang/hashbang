@@ -55,6 +55,7 @@ Currently we provide the following services:
 
   - [Abuse Prevention](https://github.com/hashbang/hashbang/tree/master/abuse)
   - [Next-Gen UserDB](https://github.com/hashbang/hashbang/tree/master/userdb)
+  - [hashbangctl](https://github.com/hashbang/hashbangctl)
 
 
 ## Notes ##
